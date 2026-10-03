@@ -1,0 +1,16 @@
+# Java build output
+out/
+*.class
+
+# IDE and editor files
+.idea/
+.vscode/
+*.iml
+
+# Temporary test and runtime files
+persistence-test.csv
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

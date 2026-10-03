@@ -1,0 +1,52 @@
+id;title;creator;year;genre;type;status;extra
+B-001;Clean Code;Robert C. Martin;2008;programming;book;available;Prentice Hall
+F-001;The Matrix;The Wachowskis;1999;science fiction;film;available;
+A-001;The Hobbit;J. R. R. Tolkien;1937;fantasy;audiobook;available;680
+E-001;Effective Java;Joshua Bloch;2018;programming;ebook;available;EPUB
+M-001;Science Weekly;Science Press;2026;science;magazine;available;weekly
+B-002;The Pragmatic Programmer;Andrew Hunt;1999;programming;book;available;Addison-Wesley
+B-003;Design Patterns;Erich Gamma;1994;programming;book;available;Pearson
+B-004;The Great Gatsby;F. Scott Fitzgerald;1925;classic;book;available;Scribner
+B-005;Dune;Frank Herbert;1965;science fiction;book;available;Ace
+B-006;1984;George Orwell;1949;dystopian;book;available;Secker & Warburg
+B-007;Pride and Prejudice;Jane Austen;1813;romance;book;available;T. Egerton
+B-008;The Alchemist;Paulo Coelho;1988;fiction;book;available;HarperOne
+B-009;Sapiens;Yuval Noah Harari;2011;history;book;available;Harper
+B-010;The Martian;Andy Weir;2011;science fiction;book;available;Crown
+F-002;Inception;Christopher Nolan;2010;science fiction;film;available;
+F-003;Interstellar;Christopher Nolan;2014;science fiction;film;available;
+F-004;Arrival;Denis Villeneuve;2016;science fiction;film;available;
+F-005;Gladiator;Ridley Scott;2000;history;film;available;
+F-006;The Godfather;Francis Ford Coppola;1972;crime;film;available;
+F-007;Parasite;Bong Joon-ho;2019;thriller;film;available;
+F-008;Spirited Away;Hayao Miyazaki;2001;fantasy;film;available;
+F-009;The Shawshank Redemption;Frank Darabont;1994;drama;film;available;
+F-010;The Lion King;Roger Allers;1994;animation;film;available;
+A-002;Pride and Prejudice;Jane Austen;1813;romance;audiobook;available;720
+A-003;Sapiens;Yuval Noah Harari;2011;history;audiobook;available;930
+A-004;Dune;Frank Herbert;1965;science fiction;audiobook;available;1260
+A-005;The Odyssey;Homer;2006;classic;audiobook;available;780
+A-006;Atomic Habits;James Clear;2018;self help;audiobook;available;320
+A-007;Dracula;Bram Stoker;1897;horror;audiobook;available;900
+A-008;The Little Prince;Antoine de Saint-Exupery;1943;fiction;audiobook;available;115
+E-002;Clean Architecture;Robert C. Martin;2017;programming;ebook;available;PDF
+E-003;Java Concurrency in Practice;Brian Goetz;2006;programming;ebook;available;EPUB
+E-004;The Lean Startup;Eric Ries;2011;business;ebook;available;PDF
+E-005;Thinking Fast and Slow;Daniel Kahneman;2011;psychology;ebook;available;EPUB
+E-006;A Brief History of Time;Stephen Hawking;1988;science;ebook;available;PDF
+E-007;The Design of Everyday Things;Don Norman;2013;design;ebook;available;EPUB
+E-008;The Art of War;Sun Tzu;2005;strategy;ebook;available;PDF
+M-002;Technology Monthly;Tech Press;2026;technology;magazine;available;monthly
+M-003;World History Today;History Press;2026;history;magazine;available;monthly
+M-004;Nature Review;Nature Press;2026;science;magazine;available;weekly
+M-005;Film Journal;Cinema Press;2026;film;magazine;available;monthly
+M-006;Modern Architecture;Design Press;2025;design;magazine;available;monthly
+M-007;Health Weekly;Wellness Press;2026;health;magazine;available;weekly
+M-008;Business Review;Market Press;2026;business;magazine;available;monthly
+M-009;World Sports;Sports Press;2026;sports;magazine;available;weekly
+M-010;Travel Explorer;Travel Press;2026;travel;magazine;available;monthly
+R-001;World Encyclopedia;Reference Library;2020;reference;reference literature;available;encyclopedia
+R-002;Medical Dictionary;Health Library;2022;medicine;reference literature;available;dictionary
+R-003;Programming Handbook;Technical Library;2024;programming;reference literature;available;handbook
+R-004;Historical Atlas;Archive Press;2018;history;reference literature;available;atlas
+R-005;Language Guide;Education Press;2023;education;reference literature;available;guide

@@ -1,0 +1,1655 @@
+package media;
+
+import vynimky.NeplatnyStavMedia;
+
+/**
+ * Trieda ReferencnaLiteratura reprezentuje špecifický typ literatúry,
+ * ktorý slúži na študijné a informačné účely a spravidla sa nepožičiava.
+ */
+public class ReferencnaLiteratura extends Media {
+    /** Kategória referenčnej literatúry (napr. encyklopédia, archív) */
+    private String kategoria;
+
+    /**
+     * Konštruktor vytvorí novú inštanciu referenčnej literatúry.
+     *
+     * @param kod kód dokumentu
+     * @param nazov názov dokumentu
+     * @param autor autor dokumentu
+     * @param rok rok vydania
+     * @param zaner žáner
+     * @param pozicane či je požičané
+     * @param rezervovane či je rezervované
+     * @param kategoria typ/kategória referenčnej literatúry
+     */
+    public ReferencnaLiteratura(String kod, String nazov, String autor, int rok, String zaner, boolean pozicane, boolean rezervovane, String kategoria) {
+        super(kod, nazov, autor, rok, zaner, pozicane, rezervovane, "referencnaliteratura");
+        this.kategoria = kategoria;
+    }
+
+    /**
+     * Vráti kategóriu referenčnej literatúry.
+     *
+     * @return kategória ako reťazec
+     */
+    public String getKategoria() {
+        return kategoria;
+    }
+
+    /**
+     * Vráti detailný popis referenčnej literatúry.
+     *
+     * @return textový reťazec s podrobnosťami o dokumente
+     */
+    @Override
+    public String getDetailnyPopis() {
+        String autor = getAutor() != null && !getAutor().isEmpty() ? getAutor() : "[Neznámy]";
+        String kategoriaText = kategoria != null && !kategoria.isEmpty() ? kategoria : "[Neuvedená]";
+        String rok = getRokVydania() > 0 ? String.valueOf(getRokVydania()) : "[Neuvedený]";
+        int vekMedia = 2025 - getRokVydania();
+        String kategoriaVeku = vekMedia < 10 ? "[Aktuálna]" : vekMedia <= 30 ? "" : "[Historická]";
+        String stav = jePozicane() ? "[Požičané]" : jeRezervovane() ? "[Rezervované]" : "[Dostupné]";
+        return Media.formatujTyp(getTyp()) + ": " + getNazov() + ", Autor: " + autor + ", Žáner: " + getZaner() +
+                ", Kategória: " + kategoriaText + ", Rok: " + rok + kategoriaVeku + stav;
+    }
+
+    /**
+     * Určí, či je možné referenčnú literatúru požičať.
+     *
+     * @return true, ak je možné požičanie
+     * @throws NeplatnyStavMedia ak je médium v nevhodnom stave alebo patrí do archívu
+     */
+    @Override
+    public boolean jePovolenePozicanie() throws NeplatnyStavMedia {
+        if (jePozicane()) {
+            throw new NeplatnyStavMedia("Referenčná literatúra '" + getNazov() + "' je už požičaná.");
+        }
+        if (jeRezervovane()) {
+            throw new NeplatnyStavMedia("Referenčná literatúra '" + getNazov() + "' je rezervovaná.");
+        }
+        int vekMedia = 2025 - getRokVydania();
+        if (vekMedia > 30) {
+            throw new NeplatnyStavMedia("Referenčná literatúra '" + getNazov() + "' je príliš stará na požičiavanie.");
+        }
+        if (kategoria != null && kategoria.equalsIgnoreCase("archív")) {
+            throw new NeplatnyStavMedia("Archívna literatúra '" + getNazov() + "' nie je dostupná na požičiavanie.");
+        }
+        return true;
+    }
+}package media;
+
+import vynimky.NeplatnyStavMedia;
+
+/**
+ * Trieda ReferencnaLiteratura reprezentuje špecifický typ literatúry,
+ * ktorý slúži na študijné a informačné účely a spravidla sa nepožičiava.
+ */
+public class ReferencnaLiteratura extends Media {
+    /** Kategória referenčnej literatúry (napr. encyklopédia, archív) */
+    private String kategoria;
+
+    public ReferencnaLiteratura(String kod, String nazov, String autor, int rok, String zaner, boolean pozicane, boolean rezervovane, String kategoria) {
+        super(kod, nazov, autor, rok, zaner, pozicane, rezervovane, "referencnaliteratura");
+        this.kategoria = kategoria;
+    }
+
+    public String getKategoria() {
+        return kategoria;
+    }
+
+    @Override
+    public String getDetailnyPopis() {
+        String autor = getAutor() != null && !getAutor().isEmpty() ? getAutor() : "[Neznámy]";
+        String kategoriaText = kategoria != null && !kategoria.isEmpty() ? kategoria : "[Neuvedená]";
+        String rok = getRokVydania() > 0 ? String.valueOf(getRokVydania()) : "[Neuvedený]";
+        int vekMedia = 2025 - getRokVydania();
+        String kategoriaVeku = vekMedia < 10 ? "[Aktuálna]" : vekMedia <= 30 ? "" : "[Historická]";
+        String stav = jePozicane() ? "[Požičané]" : jeRezervovane() ? "[Rezervované]" : "[Dostupné]";
+        return Media.formatujTyp(getTyp()) + ": " + getNazov() + ", Autor: " + autor + ", Žáner: " + getZaner() +
+                ", Kategória: " + kategoriaText + ", Rok: " + rok + kategoriaVeku + stav;
+    }
+
+    @Override
+    public boolean jePovolenePozicanie() throws NeplatnyStavMedia {
+        if (jePozicane()) {
+            throw new NeplatnyStavMedia("Referenčná literatúra '" + getNazov() + "' je už požičaná.");
+        }
+        if (jeRezervovane()) {
+            throw new NeplatnyStavMedia("Referenčná literatúra '" + getNazov() + "' je rezervovaná.");
+        }
+        int vekMedia = 2025 - getRokVydania();
+        if (vekMedia > 30) {
+            throw new NeplatnyStavMedia("Referenčná literatúra '" + getNazov() + "' je príliš stará na požičiavanie.");
+        }
+        if (kategoria != null && kategoria.equalsIgnoreCase("archív")) {
+            throw new NeplatnyStavMedia("Archívna literatúra '" + getNazov() + "' nie je dostupná na požičiavanie.");
+        }
+        return true;
+    }
+}package media;
+
+import vynimky.NeplatnyStavMedia;
+
+/**
+ * Trieda Audiokniha reprezentuje knihu vo forme zvukového záznamu.
+ */
+public class Audiokniha extends Media {
+    /** Dĺžka audioknihy v minútach */
+    private int dlzka;
+
+    public Audiokniha(String kod, String nazov, String autor, int rok, String zaner, boolean pozicane, boolean rezervovane, int dlzka) {
+        super(kod, nazov, autor, rok, zaner, pozicane, rezervovane, "audiokniha");
+        this.dlzka = dlzka;
+    }
+
+    public int getDlzka() {
+        return dlzka;
+    }
+
+    @Override
+    public String getDetailnyPopis() {
+        String autor = getAutor() != null && !getAutor().isEmpty() ? getAutor() : "[Neznámy]";
+        String rok = getRokVydania() > 0 ? String.valueOf(getRokVydania()) : "[Neuvedený]";
+        String stav = jePozicane() ? "[Požičané]" : jeRezervovane() ? "[Rezervované]" : "[Dostupné]";
+        return Media.formatujTyp(getTyp()) + ": " + getNazov() + ", Autor: " + autor + ", Žáner: " + getZaner() +
+                ", Dĺžka: " + dlzka + " min, Rok: " + rok + stav;
+    }
+
+    @Override
+    publicpackage media;
+
+import vynimky.NeplatnyStavMedia;
+
+/**
+ * Trieda Film reprezentuje filmové médium v knižnici.
+ */
+public class Film extends Media {
+    /** Režisér filmu */
+    private String reziser;
+
+    public Film(String kod, String nazov, String reziser, int rok, String zaner,
+                boolean pozicane, boolean rezervovane) {
+        super(kod, nazov, reziser, rok, zaner, pozicane, rezervovane, "film");
+        this.reziser = reziser;
+    }
+
+    public String getReziser() {
+        return this.reziser;
+    }
+
+    @Override
+    public String getDetailnyPopis() {
+        String reziser = this.reziser != null && !this.reziser.isEmpty() ? this.reziser : "[Neznámy]";
+        String rok = this.getRokVydania() > 0 ? String.valueOf(this.getRokVydania()) : "[Neuvedený]";
+        String stav = this.jePozicane() ? "[Požičané]" : this.jeRezervovane() ? "[Rezervované]" : "[Dostupné]";
+        return Media.formatujTyp(this.getTyp()) + ": " + this.getNazov() + ", Režisér: " + reziser +
+                ", Žáner: " + this.getZaner() + ", Rok: " + rok + stav;
+    }
+
+    @Override
+    public boolean jePovolenePozicanie() throws NeplatnyStavMedia {
+        if (this.jePozicane()) {
+            throw new NeplatnyStavMedia("Film '" + this.getNazov() + "' je už požičaný.");
+        }
+        if (this.jeRezervovane()) {
+            throw new NeplatnyStavMedia("Film '" + this.getNazov() + "' je rezervovaný.");
+        }
+        if (this.getZaner() != null && this.getZaner().equalsIgnoreCase("horor")) {
+            throw new NeplatnyStavMedia("Filmy žánru 'horor' nie sú určené na vypožičanie.");
+        }
+        return true;
+    }
+}package media;
+
+import vynimky.NeplatnyStavMedia;
+
+/**
+ * Trieda Kniha reprezentuje klasickú tlačenú knihu.
+ */
+public class Kniha extends Media {
+    /** Vydavateľstvo knihy */
+    private String vydavatelstvo;
+
+    public Kniha(String kod, String nazov, String autor, int rok, String zaner,
+                 boolean pozicane, boolean rezervovane, String vydavatelstvo) {
+        super(kod, nazov, autor, rok, zaner, pozicane, rezervovane, "kniha");
+        this.vydavatelstvo = vydavatelstvo;
+    }
+
+    public String getVydavatelstvo() {
+        return this.vydavatelstvo;
+    }
+
+    @Override
+    public String getDetailnyPopis() {
+        String autor = this.getAutor() != null && !this.getAutor().isEmpty() ? this.getAutor() : "[Neznámy]";
+        String vydavatel = this.vydavatelstvo != null && !this.vydavatelstvo.isEmpty() ? this.vydavatelstvo : "[Neznáme]";
+        String rok = this.getRokVydania() > 0 ? String.valueOf(this.getRokVydania()) : "[Neuvedený]";
+        String stav = this.jePozicane() ? "[Požičané]" : this.jeRezervovane() ? "[Rezervované]" : "[Dostupné]";
+        return Media.formatujTyp(this.getTyp()) + ": " + this.getNazov() + ", Autor: " + autor +
+                ", Vydavateľstvo: " + vydavatel + ", Žáner: " + this.getZaner() + ", Rok: " + rok + stav;
+    }
+
+    @Override
+    public boolean jePovolenePozicanie() throws NeplatnyStavMedia {
+        if (this.jePozicane()) {
+            throw new NeplatnyStavMedia("Kniha '" + this.getNazov() + "' je už požičaná.");
+        }
+        if (this.jeRezervovane()) {
+            throw new NeplatnyStavMedia("Kniha '" + this.getNazov() + "' je rezervovaná.");
+        }
+        if (this.getZaner() != null && this.getZaner().equalsIgnoreCase("rarita")) {
+            throw new NeplatnyStavMedia("Raritné knihy sa nepožičiavajú.");
+        }
+        return true;
+    }
+}package media;
+
+/**
+ * Trieda Casopis reprezentuje časopis v knižničnom systéme.
+ * Rozširuje triedu Media a pridáva informáciu o periodicite vydávania.
+ */
+public class Casopis extends Media {
+    /** Periodicita vydávania časopisu (napr. týždenník, mesačník) */
+    private String periodicita;
+
+    /**
+     * Konštruktor vytvorí novú inštanciu časopisu.
+     *
+     * @param kod kód časopisu
+     * @param nazov názov časopisu
+     * @param vydavatel vydavateľ časopisu (uložený v poli autor)
+     * @param rok rok vydania
+     * @param zaner žáner časopisu
+     * @param pozicane či je časopis požičaný
+     * @param rezervovane či je časopis rezervovaný
+     * @param periodicita periodicita vydávania (napr. týždenník)
+     * @throws IllegalArgumentException ak sú vstupné údaje neplatné
+     */
+    public Casopis(String kod, String nazov, String vydavatel, int rok, String zaner, boolean pozicane, boolean rezervovane, String periodicita) {
+        super(kod, nazov, vydavatel, rok, zaner, pozicane, rezervovane, "casopis");
+
+        if (periodicita == null || periodicita.trim().isEmpty()) {
+            throw new IllegalArgumentException("Periodicita časopisu nemôže byť prázdna.");
+        }
+
+        this.periodicita = periodicita;
+    }
+
+    /**
+     * Vráti periodicitu vydávania časopisu.
+     *
+     * @return periodicita (napr. týždenník, mesačník)
+     */
+    public String getPeriodicita() {
+        return this.periodicita;
+    }
+
+    /**
+     * Vráti detailný popis časopisu vrátane vydavateľa, periodicity a stavu.
+     *
+     * @return textový reťazec s detailným popisom
+     */
+    @Override
+    public String getDetailnyPopis() {
+        String vydavatel = this.getAutor() != null && !this.getAutor().isEmpty() ? this.getAutor() : "[Neznámy]";
+        String periodicitaText = this.periodicita != null && !this.periodicita.isEmpty() ? this.periodicita : "[Neuvedená]";
+        String rok = this.getRokVydania() > 0 ? String.valueOf(this.getRokVydania()) : "[Neuvedený]";
+        int vekMedia = 2025 - this.getRokVydania();
+        String kategoriaVeku = vekMedia < 1 ? "[Najnovšie]" : vekMedia <= 2 ? "" : "[Archívne]";
+        String stav = this.jePozicane() ? "[Požičané]" : this.jeRezervovane() ? "[Rezervované]" : "[Dostupné]";
+        return Media.formatujTyp(this.getTyp()) + ": " + this.getNazov() + ", Vydavateľ: " + vydavatel + ", Žáner: " + this.getZaner() + ", Periodicita: " + periodicitaText + ", Rok: " + rok + kategoriaVeku + stav;
+    }
+
+    /**
+     * Skontroluje, či je povolené požičať časopis.
+     * Časopis je možné požičať len ak je novší ako 2 roky a je týždenníkom.
+     *
+     * @return true, ak je požičanie povolené, inak false
+     */
+    @Override
+    public boolean jePovolenePozicanie() {
+        if (this.jePozicane()) {
+            return false;
+        }
+        int vekMedia = 2025 - this.getRokVydania();
+        return vekMedia <= 2 && this.periodicita != null && this.periodicita.equalsIgnoreCase("týždenník");
+    }
+}package ui;
+
+import uzivatelia.IPouzivatel;
+import uzivatelia.Pouzivatel;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.util.List;
+
+/**
+ * Trieda TabulkaPouzivatelia zobrazuje používateľov v tabuľke v rámci dialógu.
+ * Tabuľka zobrazuje ID, meno, typ používateľa, maximálnu dĺžku výpožičky a vek používateľa.
+ */
+public class TabulkaPouzivatelia {
+
+    /**
+     * Vytvorí a zobrazí dialóg s tabuľkou používateľov.
+     *
+     * @param parent rodičovské okno, ku ktorému je dialóg modalne pripojený
+     * @param pouzivatelia zoznam používateľov na zobrazenie
+     * @throws IllegalArgumentException ak je zoznam používateľov null
+     */
+    public TabulkaPouzivatelia(JFrame parent, List<IPouzivatel> pouzivatelia) {
+        if (pouzivatelia == null) {
+            throw new IllegalArgumentException("Zoznam používateľov nesmie byť null.");
+        }
+
+        String[] columnNames = {"ID", "Meno", "Typ", "Max. dĺžka výpožičky", "Vek"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 3 || columnIndex == 4) {
+                    return Integer.class;
+                } else {
+                    return String.class;
+                }
+            }
+        };
+
+        for (IPouzivatel p : pouzivatelia) {
+            String zobrazTyp = Pouzivatel.formatujTyp(p.getTyp());
+            Object[] row = new Object[]{
+                    p.getId(),
+                    p.getMeno(),
+                    zobrazTyp,
+                    p.getMaxDlzkaVypozicky(),
+                    ((Pouzivatel) p).getVek()
+            };
+            tableModel.addRow(row);
+        }
+
+        JTable table = new JTable(tableModel);
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
+
+        table.setAutoCreateRowSorter(true);
+
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);
+        table.getColumnModel().getColumn(2).setPreferredWidth(100);
+        table.getColumnModel().getColumn(3).setPreferredWidth(100);
+        table.getColumnModel().getColumn(4).setPreferredWidth(50);
+
+        table.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                Integer dlzka = (Integer) value;
+                if (dlzka <= 14) {
+                    c.setForeground(Color.RED); // Krátka výpožička
+                } else if (dlzka <= 21) {
+                    c.setForeground(Color.BLUE); // Stredná výpožička
+                } else if (dlzka <= 30) {
+                    c.setForeground(Color.GREEN); // Dlhšia výpožička
+                } else {
+                    c.setForeground(Color.MAGENTA); // Najdlhšia výpožička
+                }
+                if (!isSelected) {
+                    c.setBackground(Color.WHITE);
+                }
+                return c;
+            }
+        });
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(550, 400));
+
+        JDialog dialog = new JDialog(parent, "Zoznam používateľov", true);
+        dialog.setLayout(new BorderLayout());
+
+        dialog.add(scrollPane, BorderLayout.CENTER);
+
+        dialog.pack();
+        dialog.setLocationRelativeTo(parent);
+        dialog.setVisible(true);
+    }
+}package ui;
+
+import media.Media;
+import media.Audiokniha;
+import media.EBook;
+import media.ReferencnaLiteratura;
+import media.Casopis;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.util.List;
+
+/**
+ * Trieda TabulkaZobraz zobrazuje zoznam médií v tabuľke v dialógovom okne.
+ * Zobrazuje základné informácie o médiách vrátane typu, stavu a špecifických detailov (extra).
+ */
+public class TabulkaZobraz {
+
+    /**
+     * Vytvorí a zobrazí dialóg s tabuľkou médií.
+     *
+     * @param parent rodičovské okno, ku ktorému je dialóg modalne pripojený
+     * @param mediaList zoznam médií na zobrazenie
+     * @throws IllegalArgumentException ak je zoznam médií null
+     */
+    public TabulkaZobraz(JFrame parent, List<Media> mediaList) {
+        if (mediaList == null) {
+            throw new IllegalArgumentException("Zoznam médií nesmie byť null.");
+        }
+
+        String[] columnNames = {"ID", "Názov", "Autor/Režisér", "Rok", "Žáner", "Typ", "Stav", "Extra"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                switch (columnIndex) {
+                    case 3:
+                        return Integer.class;
+                    case 6:
+                        return String.class;
+                    default:
+                        return String.class;
+                }
+            }
+        };
+
+        for (Media m : mediaList) {
+            String stav = m.jePozicane() ? "Požičané" : m.jeRezervovane() ? "Rezervované" : "Dostupné";
+            String extra = "";
+            if (m instanceof Audiokniha) {
+                extra = ((Audiokniha) m).getDlzkaMinuty() + " min";
+            } else if (m instanceof EBook) {
+                extra = ((EBook) m).getFormat();
+            } else if (m instanceof ReferencnaLiteratura) {
+                extra = ((ReferencnaLiteratura) m).getKategoria();
+            } else if (m instanceof Casopis) {
+                extra = ((Casopis) m).getPeriodicita();
+            }
+
+            String zobrazTyp = Media.formatujTyp(m.getTyp());
+
+            Object[] row = {
+                    m.getKod(),
+                    m.getNazov(),
+                    m.getAutor(),
+                    m.getRokVydania(),
+                    m.getZaner(), zobrazTyp, stav, extra
+            };
+            tableModel.addRow(row);
+        }
+
+        JTable table = new JTable(tableModel);
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
+
+        table.setAutoCreateRowSorter(true);
+
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);
+        table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        table.getColumnModel().getColumn(3).setPreferredWidth(50);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table.getColumnModel().getColumn(5).setPreferredWidth(80);
+        table.getColumnModel().getColumn(6).setPreferredWidth(80);
+        table.getColumnModel().getColumn(7).setPreferredWidth(80);
+
+        table.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                String stav = (String) value;
+                if ("Dostupné".equals(stav)) {
+                    c.setForeground(Color.GREEN);
+                } else if ("Požičané".equals(stav)) {
+                    c.setForeground(Color.RED);
+                } else if ("Rezervované".equals(stav)) {
+                    c.setForeground(Color.ORANGE);
+                } else {
+                    c.setForeground(Color.BLACK);
+                }
+                if (!isSelected) {
+                    c.setBackground(Color.WHITE);
+                }
+                return c;
+            }
+        });
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(700, 400));
+
+        JDialog dialog = new JDialog(parent, "Zoznam médií", true);
+        dialog.setLayout(new BorderLayout());
+
+        dialog.add(scrollPane, BorderLayout.CENTER);
+
+        dialog.pack();
+        dialog.setLocationRelativeTo(parent);
+        dialog.setVisible(true);
+    }
+}package exceptions;
+
+/**
+ * Výnimka signalizujúca neplatný typ používateľa pri formátovaní alebo načítaní.
+ */
+public class NeplatnyTypPouzivatelaException extends RuntimeException {
+    /**
+     * Konštruktor výnimky s popisom chyby.
+     * @param message popis chyby
+     */
+    public NeplatnyTypPouzivatelaException(String message) {
+        super(message);
+    }
+}
+
+/**
+ * Výnimka signalizujúca neplatný typ média pri formátovaní alebo načítaní.
+ */
+public class NeplatnyTypMediaException extends RuntimeException {
+    /**
+     * Konštruktor výnimky s popisom chyby.
+     * @param message popis chyby
+     */
+    public NeplatnyTypMediaException(String message) {
+        super(message);
+    }
+}package ui;
+
+import exceptions.NeplatnyTypPouzivatelaException;
+import uzivatelia.IPouzivatel;
+import uzivatelia.Pouzivatel;
+
+import javax.swing.*;
+import javax.swing.table.*;
+import java.awt.*;
+import java.util.List;
+
+/**
+ * Trieda pre zobrazenie tabuľky používateľov v dialógovom okne.
+ * Tabuľka obsahuje informácie o ID, mene, type, maximálnej dĺžke výpožičky a veku používateľa.
+ */
+public class TabulkaPouzivatelia {
+
+    /**
+     * Vytvorí a zobrazí tabuľku používateľov v modálnom dialógovom okne.
+     * 
+     * @param parent rodičovské okno (frame), ku ktorému je dialóg priradený
+     * @param pouzivatelia zoznam používateľov na zobrazenie (nesmie byť null)
+     * @throws IllegalArgumentException ak je zoznam používateľov null
+     * @throws NeplatnyTypPouzivatelException ak sa nepodarí naformátovať typ používateľa
+     */
+    public TabulkaPouzivatelia(JFrame parent, List<IPouzivatel> pouzivatelia) {
+        if (pouzivatelia == null) {
+            throw new IllegalArgumentException("Zoznam používateľov nesmie byť null.");
+        }
+
+        String[] columnNames = {"ID", "Meno", "Typ", "Max. dĺžka výpožičky", "Vek"};
+        
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Zakazuje editáciu buniek tabuľky
+                return false;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                // Definuje typ údajov v stĺpcoch pre správne triedenie a renderovanie
+                if (columnIndex == 3 || columnIndex == 4) {
+                    return Integer.class;
+                } else {
+                    return String.class;
+                }
+            }
+        };
+
+        // Naplníme model tabuľky riadkami zo zoznamu používateľov
+        for (IPouzivatel p : pouzivatelia) {
+            String zobrazTyp;
+            try {
+                zobrazTyp = Pouzivatel.formatujTyp(p.getTyp());
+                if (zobrazTyp == null || zobrazTyp.isEmpty()) {
+                    throw new NeplatnyTypPouzivatelaException("Neplatný typ používateľa: " + p.getTyp());
+                }
+            } catch (Exception e) {
+                throw new NeplatnyTypPouzivatelaException("Chyba pri formátovaní typu používateľa: " + e.getMessage());
+            }
+
+            Object[] row = new Object[]{
+                    p.getId(),
+                    p.getMeno(),
+                    zobrazTyp,
+                    p.getMaxDlzkaVypozicky(),
+                    ((Pouzivatel) p).getVek()
+            };
+            tableModel.addRow(row);
+        }
+
+        JTable table = new JTable(tableModel);
+
+        // Povolenie triedenia tabulky kliknutím na hlavičku stĺpca
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
+        table.setAutoCreateRowSorter(true);
+
+        // Nastavenie preferovanej šírky stĺpcov
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);
+        table.getColumnModel().getColumn(2).setPreferredWidth(100);
+        table.getColumnModel().getColumn(3).setPreferredWidth(100);
+        table.getColumnModel().getColumn(4).setPreferredWidth(50);
+
+        // Vlastný renderer na farebné zvýraznenie dĺžky výpožičky
+        table.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table,
+                                                           Object value, boolean isSelected, boolean hasFocus,
+                                                           int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                try {
+                    Integer dlzka = (Integer) value;
+                    if (dlzka <= 14) {
+                        c.setForeground(Color.RED);
+                    } else if (dlzka <= 21) {
+                        c.setForeground(Color.BLUE);
+                    } else if (dlzka <= 30) {
+                        c.setForeground(Color.GREEN);
+                    } else {
+                        c.setForeground(Color.MAGENTA);
+                    }
+                } catch (Exception e) {
+                    c.setForeground(Color.BLACK);
+                }
+                if (!isSelected) {
+                    c.setBackground(Color.WHITE);
+                }
+                return c;
+            }
+        });
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(550, 400));
+
+        // Vytvorenie modálneho dialógu s tabuľkou
+        JDialog dialog = new JDialog(parent, "Zoznam používateľov", true);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(scrollPane, BorderLayout.CENTER);
+        dialog.pack();
+        dialog.setLocationRelativeTo(parent);
+        dialog.setVisible(true);
+    }
+}package utils;
+
+import media.*;
+import uzivatelia.*;
+import java.io.*;
+import java.time.LocalDate;
+import java.util.*;
+
+/**
+ * Trieda na načítanie a ukladanie médií a používateľov do CSV súborov.
+ */
+public class CSVManager {
+
+    /**
+     * Načíta média zo súboru CSV do HashMapy.
+     * 
+     * @param nazovSuboru Názov CSV súboru, z ktorého sa načítajú média
+     * @return HashMap<String, Media> mapa médií s ID ako kľúčom
+     * 
+     * @throws IOException Pri chybe čítania súboru je výnimka odchytená a zalogovaná
+     */
+    public static HashMap<String, Media> nacitajMediaZoSuboru(String nazovSuboru) {
+        HashMap<String, Media> media = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(nazovSuboru))) {
+            String line = br.readLine(); // Skip header
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(";", -1);
+                if (data.length < 11) {
+                    Logger.loguj("Neplatný riadok v " + nazovSuboru + ": " + line);
+                    continue; // Preskočí neplatný riadok
+                }
+
+                String id = data[0];
+                String nazov = data[1];
+                String autor = data[2].isEmpty() ? null : data[2]; // Prázdny autor sa uloží ako null
+                int rok;
+                try {
+                    rok = Integer.parseInt(data[3]);
+                } catch (NumberFormatException e) {
+                    Logger.loguj("Neplatný rok v riadku: " + line);
+                    continue; // Preskočí riadok s chybným rokom
+                }
+                String zaner = data[4];
+                boolean pozicane = Boolean.parseBoolean(data[5]);
+                String pozicalSi = data[6].isEmpty() ? null : data[6];
+                boolean rezervovane = Boolean.parseBoolean(data[7]);
+                String rezervovalSi = data[8].isEmpty() ? null : data[8];
+                String typ = data[9];
+                String extra = data[10];
+
+                String normalizovanyTyp = typ.toLowerCase()
+                        .replace("časopis", "casopis")
+                        .replace("referenčná literatúra", "referencnaliteratura")
+                        .replace("referenčnáliteratúra", "referencnaliteratura");
+
+                Media medium;
+                switch (normalizovanyTyp) {
+                    case "kniha":
+                        medium = new Kniha(id, nazov, autor, rok, zaner, pozicane, rezervovane);
+                        break;
+                    case "film":
+                        medium = new Film(id, nazov, autor, rok, zaner, pozicane, rezervovane);
+                        break;
+                    case "audiokniha":
+                        int dlzka;
+                        try {
+                            dlzka = extra.isEmpty() ? 0 : Integer.parseInt(extra);
+                        } catch (NumberFormatException e) {
+                            Logger.loguj("Neplatná dĺžka audioknihy v riadku: " + line);
+                            continue; // Preskočí riadok s chybnou dĺžkou
+                        }
+                        medium = new Audiokniha(id, nazov, autor, rok, zaner, pozicane, rezervovane, dlzka);
+                        break;
+                    case "ebook":
+                        medium = new EBook(id, nazov, autor, rok, zaner, pozicane, rezervovane, extra.isEmpty() ? "PDF" : extra);
+                        break;
+                    case "referencnaliteratura":
+                        medium = new ReferencnaLiteratura(id, nazov, autor, rok, zaner, pozicane, rezervovane, extra.isEmpty() ? "Neznáma" : extra);
+                        break;
+                    case "casopis":
+                        medium = new Casopis(id, nazov, autor, rok, zaner, pozicane, rezervovane, extra.isEmpty() ? "Neznáma" : extra);
+                        break;
+                    default:
+                        Logger.loguj("Neznámy typ média v riadku: " + line);
+                        continue; // Preskočí neznámy typ média
+                }
+                if (pozicane && pozicalSi != null) {
+                    medium.setPozicalSi(pozicalSi);
+                }
+                if (rezervovane && rezervovalSi != null) {
+                    medium.setRezervovalSi(rezervovalSi);
+                }
+                media.put(id, medium);
+            }
+        } catch (IOException e) {
+            Logger.loguj("Chyba pri čítaní súboru " + nazovSuboru + ": " + e.getMessage());
+            // Výnimka je zalogovaná, metóda pokračuje a vráti načítané dáta (môžu byť prázdne)
+        }
+        return media;
+    }
+
+    /**
+     * Uloží média do CSV súboru.
+     * 
+     * @param media HashMap média na uloženie, kde kľúč je ID média
+     * @param nazovSuboru Názov výstupného CSV súboru
+     * 
+     * @throws IOException Pri chybe zápisu do súboru je výnimka zalogovaná
+     */
+    public static void ulozMediaDoCSV(HashMap<String, Media> media, String nazovSuboru) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nazovSuboru))) {
+            bw.write("ID;Názov;Autor/Režisér;Rok;Žáner;Požičané;PozicalSi;Rezervované;RezervovalSi;Typ;Extra\n");
+            for (Media m : media.values()) {
+                String extra = "";
+                if (m instanceof Audiokniha) {
+                    extra = String.valueOf(((Audiokniha)m).getDlzkaMinuty());
+                } else if (m instanceof EBook) {
+                    extra = ((EBook)m).getFormat();
+                } else if (m instanceof ReferencnaLiteratura) {
+                    extra = ((ReferencnaLiteratura)m).getKategoria();
+                } else if (m instanceof Casopis) {
+                    extra = ((Casopis)m).getPeriodicita();
+                }
+                bw.write(String.format("%s;%s;%s;%d;%s;%b;%s;%b;%s;%s;%s\n",
+                        m.getKod(),
+                        m.getNazov(),
+                        m.getAutor() != null ? m.getAutor() : "", // Zapíše prázdny reťazec, ak je autor null
+                        m.getRokVydania(),
+                        m.getZaner(),
+                        m.jePozicane(),
+                        m.getPozicalSi() != null ? m.getPozicalSi() : "",
+                        m.jeRezervovane(),
+                        m.getRezervovalSi() != null ? m.getRezervovalSi() : "",
+                        m.getTyp(),
+                        extra));
+            }
+        } catch (IOException e) {
+            Logger.loguj("Chyba pri zápise do súboru " + nazovSuboru + ": " + e.getMessage());
+            // Výnimka zalogovaná, metóda sa ukončí bez ďalších akcií
+        }
+    }
+
+    /**
+     * Načíta zoznam používateľov zo súboru CSV.
+     * 
+     * @param nazovSuboru Názov CSV súboru s používateľmi
+     * @return List<IPouzivatel> zoznam používateľov
+     * 
+     * @throws IOException Pri chybe čítania súboru je výnimka zalogovaná
+     */
+    public static List<IPouzivatel> nacitajPouzivatelovZoSuboru(String nazovSuboru) {
+        List<IPouzivatel> pouzivatelia = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(nazovSuboru))) {
+            String line = br.readLine(); // Skip header
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1);
+                if (data.length < 6) {
+                    Logger.loguj("Neplatný riadok v " + nazovSuboru + ": " + line);
+                    continue;
+                }
+
+                String id = data[0];
+                String meno = data[1];
+                String typ = data[2].toLowerCase();
+                boolean jeAdmin = Boolean.parseBoolean(data[3]);
+                LocalDate datumRegistracie;
+                try {
+                    datumRegistracie = data[4].isEmpty() ? LocalDate.now() : LocalDate.parse(data[4]);
+                } catch (Exception e) {
+                    Logger.loguj("Neplatný dátum registrácie v riadku: " + line);
+                    datumRegistracie = LocalDate.now(); // Použije dnešný dátum ak je neplatný
+                }
+                int pocetVypoziciek;
+                try {
+                    pocetVypoziciek = data[5].isEmpty() ? 0 : Integer.parseInt(data[5]);
+                } catch (NumberFormatException e) {
+                    Logger.loguj("Neplatný počet výpožičiek v riadku: " + line);
+                    pocetVypoziciek = 0; // Ak je chyba, nastaví na 0
+                }
+                int vek;
+                try {
+                    vek = data.length > 6 && !data[6].isEmpty() ? Integer.parseInt(data[6]) : 0;
+                } catch (NumberFormatException e) {
+                    Logger.loguj("Neplatný vek v riadku: " + line);
+                    vek = 0;
+                }
+
+                Pouzivatel pouzivatel;
+                if (jeAdmin) {
+                    pouzivatel = new Spravca(id, meno, datumRegistracie, pocetVypoziciek, vek);
+                } else {
+                    pouzivatel = new Pouzivatel(id, meno, datumRegistracie, pocetVypoziciek, vek);
+                }
+                pouzivatelia.add(pouzivatel);
+            }
+        } catch (IOException e) {
+            Logger.loguj("Chyba pri čítaní súboru " + nazovSuboru + ": " + e.getMessage());
+        }
+        return pouzivatelia;
+    }
+
+    /**
+     * Uloží používateľov do CSV súboru.
+     * 
+     * @param pouzivatelia Mapa používateľov s ID ako kľúčom
+     * @param nazovSuboru Názov výstupného CSV súboru
+     * 
+     * @throws IOException Pri chybe zápisu do súboru je výnimka zalogovaná
+     */
+    public static void ulozPouzivatelovDoCSV(HashMap<String, IPouzivatel> pouzivatelia, String nazovSuboru) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nazovSuboru))) {
+            bw.write("ID,Meno,Typ,JeAdmin,DatumRegistracie,PocetVypoziciek,Vek\n");
+            for (IPouzivatel p : pouzivatelia.values()) {
+                bw.write(String.format("%s,%s,%s,%b,%s,%d,%d\n",
+                        p.getId(),
+                        p.getMeno(),
+                        p.getTyp(),
+                        p.jeAdmin(),
+                        p.getDatumRegistracie() != null ? p.getDatumRegistracie().toString() : "",
+                        p.getPocetVypoziciek(),
+                        p.getVek()));
+            }
+        } catch (IOException e) {
+            Logger.loguj("Chyba pri zápise do súboru " + nazovSuboru + ": " + e.getMessage());
+        }
+    }
+}package utils;
+
+import media.Media;
+
+import java.util.HashMap;
+
+/**
+ * Trieda {@code Statistiky} poskytuje nástroje na získanie štatistík o médiách
+ * v knižničnom systéme.
+ */
+public class Statistiky {
+
+    /**
+     * Vypočíta štatistiky o počtoch a stave jednotlivých typov médií.
+     *
+     * @param media Mapa obsahujúca médiá (identifikované podľa ID) na spracovanie.
+     * @return Reťazec so štatistickým výstupom o médiách.
+     */
+    public static String ziskajStatistiky(HashMap<String, Media> media) {
+        int pocetKnih = 0, pocetFilmov = 0, pocetAudioknih = 0, pocetEbookov = 0, pocetRefLiteratury = 0, pocetCasopisov = 0;
+        int pozicane = 0, rezervovane = 0, dostupne = 0;
+
+        for (Media m : media.values()) {
+            switch (m.getTyp()) {
+                case "kniha" -> pocetKnih++;
+                case "film" -> pocetFilmov++;
+                case "audiokniha" -> pocetAudioknih++;
+                case "ebook" -> pocetEbookov++;
+                case "referencnaliteratura" -> pocetRefLiteratury++;
+                case "casopis" -> pocetCasopisov++;
+            }
+
+            if (m.jePozicane()) {
+                pozicane++;
+            } else if (m.jeRezervovane()) {
+                rezervovane++;
+            } else {
+                dostupne++;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("📊 Štatistiky knižnice:\n\n");
+        sb.append("Celkový počet médií: ").append(media.size()).append("\n");
+        sb.append("- Počet kníh: ").append(pocetKnih).append("\n");
+        sb.append("- Počet filmov: ").append(pocetFilmov).append("\n");
+        sb.append("- Počet audiokníh: ").append(pocetAudioknih).append("\n");
+        sb.append("- Počet eBookov: ").append(pocetEbookov).append("\n");
+        sb.append("- Počet referenčnej literatúry: ").append(pocetRefLiteratury).append("\n");
+        sb.append("- Počet časopisov: ").append(pocetCasopisov).append("\n\n");
+        sb.append("Stav médií:\n");
+        sb.append("- Požičané: ").append(pozicane).append("\n");
+        sb.append("- Rezervované: ").append(rezervovane).append("\n");
+        sb.append("- Dostupné: ").append(dostupne).append("\n");
+
+        return sb.toString();
+    }
+}package utils;
+
+import media.Media;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * Trieda {@code Vyhladavac} poskytuje funkcie na vyhľadávanie médií
+ * v knižničnom systéme na základe názvu, autora alebo žánru.
+ */
+public class Vyhladavac {
+
+    /**
+     * Vykoná automatické vyhľadávanie médií podľa zadaného výrazu.
+     * Hľadá sa v názve, autorovi a žánri (prípadne režisérovi).
+     *
+     * @param media    mapa všetkých médií, kde kľúčom je ID média
+     * @param hladany  reťazec, ktorý sa má vyhľadávať (ignoruje sa veľkosť písmen)
+     * @return zoznam médií, ktoré zodpovedajú vyhľadávaciemu výrazu
+     */
+    public static List<Media> automatickeVyhladavanie(HashMap<String, Media> media, String hladany) {
+        List<Media> vysledky = new ArrayList<>();
+        hladany = hladany.toLowerCase().trim();
+
+        for (Media m : media.values()) {
+            if (m.getNazov().toLowerCase().contains(hladany) ||
+                m.getAutor().toLowerCase().contains(hladany) ||
+                m.getZaner().toLowerCase().contains(hladany)) {
+                vysledky.add(m);
+            }
+        }
+
+        return vysledky;
+    }
+}package uzivatelia;
+
+/**
+ * Trieda {@code Admin} reprezentuje administrátora systému knižnice.
+ * Admin nemá oprávnenie požičiavať ani rezervovať médiá.
+ */
+public class Admin extends Pouzivatel {
+
+    /**
+     * Vytvára nového administrátora s daným ID, menom a vekom.
+     *
+     * @param id    identifikátor používateľa
+     * @param meno  meno používateľa
+     * @param vek   vek používateľa
+     */
+    public Admin(String id, String meno, int vek) {
+        super(id, meno, "admin", vek);
+    }
+
+    /**
+     * {@inheritDoc}
+     * Pre administrátora nie je povolená žiadna výpožička.
+     *
+     * @return vždy 0
+     */
+    @Override
+    public int getMaxDlzkaVypozicky() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * Pre administrátora nie sú povolené žiadne výpožičky ani rezervácie.
+     *
+     * @return vždy 0
+     */
+    @Override
+    public int getMaxPocetVypoziciekAReservacii() {
+        return 0;
+    }
+}package uzivatelia;
+
+/**
+ * Trieda {@code Dochodca} reprezentuje používateľa - dôchodcu.
+ * Poskytuje špeciálne pravidlá pre dĺžku výpožičky a maximálny počet výpožičiek a rezervácií podľa veku.
+ */
+public class Dochodca extends Pouzivatel {
+
+    /**
+     * Vytvorí nového používateľa typu dôchodca s daným ID, menom a vekom.
+     *
+     * @param id    identifikátor používateľa
+     * @param meno  meno používateľa
+     * @param vek   vek používateľa
+     */
+    public Dochodca(String id, String meno, int vek) {
+        super(id, meno, "dochodca", vek);
+        this.vek = vek;
+    }
+
+    /**
+     * Vracia maximálnu dĺžku výpožičky v dňoch.
+     * Dôchodcom sa podľa veku prideľuje bonus k základnej dobe výpožičky.
+     *
+     * @return maximálna dĺžka výpožičky (v dňoch)
+     */
+    @Override
+    public int getMaxDlzkaVypozicky() {
+        int zakladnaDlzka = 7;
+        int bonusDni;
+        if (this.vek < 65) {
+            bonusDni = 5; // menej ako 65 rokov
+        } else if (this.vek <= 75) {
+            bonusDni = 7; // od 65 do 75 rokov
+        } else {
+            bonusDni = 9; // viac ako 75 rokov
+        }
+        return zakladnaDlzka + bonusDni; // 12, 14 alebo 16 dní
+    }
+
+    /**
+     * Vracia maximálny počet súčasných výpožičiek a rezervácií.
+     * Bonus je pridaný podľa veku dôchodcu.
+     *
+     * @return maximálny počet výpožičiek a rezervácií
+     */
+    @Override
+    public int getMaxPocetVypoziciekAReservacii() {
+        int zakladnyPocet = 2;
+        int bonusPocet = this.vek < 70 ? 1 : 2; // menej ako 70 rokov: +1, inak +2
+        return zakladnyPocet + bonusPocet; // 3 alebo 4
+    }
+}package uzivatelia;
+
+/**
+ * Rozhranie {@code IPouzivatel} definuje základné metódy, ktoré musí implementovať každý používateľ systému.
+ */
+public interface IPouzivatel {
+
+    /**
+     * Vracia identifikátor používateľa.
+     * 
+     * @return ID používateľa
+     */
+    String getId();
+
+    /**
+     * Nastaví identifikátor používateľa.
+     * 
+     * @param id nový ID používateľa
+     */
+    void setId(String id);
+
+    /**
+     * Vracia meno používateľa.
+     * 
+     * @return meno používateľa
+     */
+    String getMeno();
+
+    /**
+     * Vracia maximálnu dĺžku výpožičky v dňoch pre používateľa.
+     * 
+     * @return maximálna dĺžka výpožičky (v dňoch)
+     */
+    int getMaxDlzkaVypozicky();
+
+    /**
+     * Vracia typ používateľa (napr. admin, dochodca, študent).
+     * 
+     * @return typ používateľa ako reťazec
+     */
+    String getTyp();
+
+    /**
+     * Vracia maximálny počet súčasných výpožičiek a rezervácií, ktoré môže používateľ mať.
+     * 
+     * @return maximálny počet výpožičiek a rezervácií
+     */
+    int getMaxPocetVypoziciekAReservacii();
+}package uzivatelia;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Abstraktná trieda reprezentujúca používateľa systému knižnice.
+ * Každý používateľ má ID, meno, typ, vek, dátum registrácie a ďalšie vlastnosti.
+ */
+public abstract class Pouzivatel implements IPouzivatel {
+    /** Identifikátor používateľa */
+    protected String id;
+    /** Meno používateľa */
+    protected String meno;
+    /** Typ používateľa (napr. admin, študent, dôchodca) */
+    protected String typ;
+    /** Dátum registrácie používateľa */
+    protected LocalDate datumRegistracie;
+    /** Počet predchádzajúcich výpožičiek */
+    protected int pocetPredchadzajucichVypoziciek;
+    /** Vek používateľa */
+    protected int vek;
+    /** Indikátor, či je používateľ admin */
+    protected boolean jeAdmin;
+
+    /**
+     * Vytvorí nového používateľa s daným ID, menom, typom a vekom.
+     *
+     * @param id     identifikátor používateľa
+     * @param meno   meno používateľa
+     * @param typ    typ používateľa
+     * @param vek    vek používateľa
+     */
+    public Pouzivatel(String id, String meno, String typ, int vek) {
+        this.id = id;
+        this.meno = meno;
+        this.typ = typ;
+        this.datumRegistracie = LocalDate.now();
+        this.pocetPredchadzajucichVypoziciek = 0;
+        this.vek = vek;
+        this.jeAdmin = false;
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getMeno() {
+        return this.meno;
+    }
+
+    @Override
+    public String getTyp() {
+        return this.typ;
+    }
+
+    /**
+     * Metóda na formátovanie typu používateľa do čitateľnej podoby.
+     *
+     * @param typ typ používateľa v surovom formáte
+     * @return naformátovaný typ používateľa
+     */
+    public static String formatujTyp(String typ) {
+        switch (typ.toLowerCase()) {
+            case "admin": return "Admin";
+            case "student": return "Študent";
+            case "vip": return "VIP";
+            case "dochodca": return "Dôchodca";
+            case "pouzivatel": return "Používateľ";
+            default: return typ;
+        }
+    }
+
+    /**
+     * Získa dátum registrácie používateľa.
+     *
+     * @return dátum registrácie
+     */
+    public LocalDate getDatumRegistracie() {
+        return this.datumRegistracie;
+    }
+
+    /**
+     * Nastaví dátum registrácie používateľa.
+     *
+     * @param datum nový dátum registrácie
+     */
+    public void setDatumRegistracie(LocalDate datum) {
+        this.datumRegistracie = datum;
+    }
+
+    /**
+     * Získa počet predchádzajúcich výpožičiek používateľa.
+     *
+     * @return počet predchádzajúcich výpožičiek
+     */
+    public int getPocetPredchadzajucichVypoziciek() {
+        return this.pocetPredchadzajucichVypoziciek;
+    }
+
+    /**
+     * Zvýši počet predchádzajúcich výpožičiek o 1.
+     */
+    public void zvysPocetPredchadzajucichVypoziciek() {
+        this.pocetPredchadzajucichVypoziciek++;
+    }
+
+    /**
+     * Získa vek používateľa.
+     *
+     * @return vek používateľa
+     */
+    public int getVek() {
+        return this.vek;
+    }
+
+    /**
+     * Nastaví vek používateľa.
+     *
+     * @param vek nový vek používateľa
+     */
+    public void setVek(int vek) {
+        this.vek = vek;
+    }
+
+    /**
+     * Určuje, či je používateľ admin.
+     *
+     * @return true, ak je používateľ admin, inak false
+     */
+    public boolean jeAdmin() {
+        return this.jeAdmin;
+    }
+
+    /**
+     * Nastaví príznak admina používateľa.
+     *
+     * @param jeAdmin true ak má byť používateľ adminom
+     */
+    protected void setJeAdmin(boolean jeAdmin) {
+        this.jeAdmin = jeAdmin;
+    }
+
+    /**
+     * Vracia maximálnu dĺžku výpožičky (v dňoch).
+     * Táto metóda je abstraktná, implementuje sa v podtriedach.
+     *
+     * @return maximálna dĺžka výpožičky v dňoch
+     */
+    @Override
+    public abstract int getMaxDlzkaVypozicky();
+
+    /**
+     * Vracia maximálny počet súčasných výpožičiek a rezervácií.
+     * Táto metóda je abstraktná, implementuje sa v podtriedach.
+     *
+     * @return maximálny počet výpožičiek a rezervácií
+     */
+    @Override
+    public abstract int getMaxPocetVypoziciekAReservacii();
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return String.format("ID: %s, Meno: %s, Typ: %s, Admin: %b, Registrácia: %s, Výpožičky: %d, Vek: %d",
+                this.id, this.meno, this.typ, this.jeAdmin, this.datumRegistracie.format(formatter),
+                this.pocetPredchadzajucichVypoziciek, this.vek);
+    }
+}package uzivatelia;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Abstraktná trieda reprezentujúca používateľa systému knižnice.
+ */
+public abstract class Pouzivatel implements IPouzivatel {
+    private String id;
+    private String meno;
+    private String typ;
+    private LocalDate datumRegistracie;
+    private int pocetPredchadzajucichVypoziciek;
+    private int vek;
+    private boolean jeAdmin;
+
+    public Pouzivatel(String id, String meno, String typ, int vek) {
+        this.id = id;
+        this.meno = meno;
+        this.typ = typ;
+        this.datumRegistracie = LocalDate.now();
+        this.pocetPredchadzajucichVypoziciek = 0;
+        this.vek = vek;
+        this.jeAdmin = false;
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getMeno() {
+        return this.meno;
+    }
+
+    public void setMeno(String meno) {
+        this.meno = meno;
+    }
+
+    @Override
+    public String getTyp() {
+        return this.typ;
+    }
+
+    public void setTyp(String typ) {
+        this.typ = typ;
+    }
+
+    public static String formatujTyp(String typ) {
+        switch (typ.toLowerCase()) {
+            case "admin": return "Admin";
+            case "student": return "Študent";
+            case "vip": return "VIP";
+            case "dochodca": return "Dôchodca";
+            case "pouzivatel": return "Používateľ";
+            default: return typ;
+        }
+    }
+
+    public LocalDate getDatumRegistracie() {
+        return this.datumRegistracie;
+    }
+
+    public void setDatumRegistracie(LocalDate datum) {
+        this.datumRegistracie = datum;
+    }
+
+    public int getPocetPredchadzajucichVypoziciek() {
+        return this.pocetPredchadzajucichVypoziciek;
+    }
+
+    public void zvysPocetPredchadzajucichVypoziciek() {
+        this.pocetPredchadzajucichVypoziciek++;
+    }
+
+    public int getVek() {
+        return this.vek;
+    }
+
+    public void setVek(int vek) {
+        this.vek = vek;
+    }
+
+    public boolean jeAdmin() {
+        return this.jeAdmin;
+    }
+
+    protected void setJeAdmin(boolean jeAdmin) {
+        this.jeAdmin = jeAdmin;
+    }
+
+    @Override
+    public abstract int getMaxDlzkaVypozicky();
+
+    @Override
+    public abstract int getMaxPocetVypoziciekAReservacii();
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return String.format("ID: %s, Meno: %s, Typ: %s, Admin: %b, Registrácia: %s, Výpožičky: %d, Vek: %d",
+                this.id, this.meno, this.typ, this.jeAdmin, this.datumRegistracie.format(formatter),
+                this.pocetPredchadzajucichVypoziciek, this.vek);
+    }
+}package uzivatelia;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+/**
+ * Trieda predstavujúca štandardného používateľa knižnice.
+ * Určuje maximálnu dĺžku výpožičky a maximálny počet výpožičiek a rezervácií
+ * na základe veku používateľa a jeho histórie výpožičiek.
+ */
+public class StandardnyPouzivatel extends Pouzivatel {
+
+    /**
+     * Vytvorí nového štandardného používateľa.
+     *
+     * @param id unikátny identifikátor používateľa
+     * @param meno meno používateľa
+     * @param vek vek používateľa
+     */
+    public StandardnyPouzivatel(String id, String meno, int vek) {
+        super(id, meno, "pouzivatel", vek);
+    }
+
+    /**
+     * Vráti maximálnu dĺžku výpožičky v dňoch.
+     * Bonus závisí od počtu rokov od registrácie:
+     * <ul>
+     *   <li>menej ako 1 rok: +5 dní</li>
+     *   <li>1 až 2 roky: +7 dní</li>
+     *   <li>viac ako 2 roky: +8 dní</li>
+     * </ul>
+     *
+     * @return maximálna dĺžka výpožičky v dňoch
+     */
+    @Override
+    public int getMaxDlzkaVypozicky() {
+        int zakladnaDlzka = 7;
+        long rokyOdRegistracie = ChronoUnit.YEARS.between(getDatumRegistracie(), LocalDate.now());
+        int bonusDni = switch ((int) rokyOdRegistracie) {
+            case 0 -> 5; // menej ako 1 rok
+            case 1 -> 7; // 1 až 2 roky
+            default -> 8; // viac ako 2 roky
+        };
+        return zakladnaDlzka + bonusDni;
+    }
+
+    /**
+     * Vráti maximálny počet výpožičiek a rezervácií.
+     * Bonus závisí od počtu predchádzajúcich výpožičiek:
+     * <ul>
+     *   <li>menej ako 15 výpožičiek: +1</li>
+     *   <li>15 a viac výpožičiek: +2</li>
+     * </ul>
+     *
+     * @return maximálny počet výpožičiek a rezervácií
+     */
+    @Override
+    public int getMaxPocetVypoziciekAReservacii() {
+        int zakladnyPocet = 2;
+        int bonusPocet = getPocetPredchadzajucichVypoziciek() < 15 ? 1 : 2;
+        return zakladnyPocet + bonusPocet;
+    }
+}package uzivatelia;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+/**
+ * Trieda predstavujúca študenta ako používateľa knižnice.
+ * Poskytuje špecifické pravidlá pre maximálnu dĺžku výpožičky
+ * a maximálny počet výpožičiek a rezervácií na základe doby registrácie a histórie výpožičiek.
+ */
+public class Student extends Pouzivatel {
+
+    /**
+     * Vytvorí nového študenta.
+     *
+     * @param id unikátny identifikátor používateľa
+     * @param meno meno používateľa
+     * @param vek vek používateľa
+     */
+    public Student(String id, String meno, int vek) {
+        super(id, meno, "student", vek);
+    }
+
+    /**
+     * Vráti maximálnu dĺžku výpožičky v dňoch.
+     * Bonus závisí od počtu polroka od registrácie:
+     * <ul>
+     *   <li>menej ako 6 mesiacov: +5 dní</li>
+     *   <li>6 až 12 mesiacov: +7 dní</li>
+     *   <li>viac ako 12 mesiacov: +9 dní</li>
+     * </ul>
+     *
+     * @return maximálna dĺžka výpožičky v dňoch
+     */
+    @Override
+    public int getMaxDlzkaVypozicky() {
+        int zakladnaDlzka = 7;
+        long mesiaceOdRegistracie = ChronoUnit.MONTHS.between(getDatumRegistracie(), LocalDate.now());
+        int bonusDni = switch ((int) (mesiaceOdRegistracie / 6)) {
+            case 0 -> 5;  // menej ako 6 mesiacov
+            case 1 -> 7;  // 6 až 12 mesiacov
+            default -> 9; // viac ako 12 mesiacov
+        };
+        return zakladnaDlzka + bonusDni;
+    }
+
+    /**
+     * Vráti maximálny počet výpožičiek a rezervácií.
+     * Bonus závisí od počtu predchádzajúcich výpožičiek:
+     * <ul>
+     *   <li>menej ako 10 výpožičiek: +2</li>
+     *   <li>10 až 20 výpožičiek: +3</li>
+     *   <li>viac ako 20 výpožičiek: +4</li>
+     * </ul>
+     *
+     * @return maximálny počet výpožičiek a rezervácií
+     */
+    @Override
+    public int getMaxPocetVypoziciekAReservacii() {
+        int zakladnyPocet = 2;
+        int pocetPredchadzajucich = getPocetPredchadzajucichVypoziciek();
+        int bonusPocet;
+        if (pocetPredchadzajucich < 10) {
+            bonusPocet = 2;
+        } else if (pocetPredchadzajucich <= 20) {
+            bonusPocet = 3;
+        } else {
+            bonusPocet = 4;
+        }
+        return zakladnyPocet + bonusPocet;
+    }
+}package uzivatelia;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+/**
+ * Trieda predstavujúca VIP používateľa knižnice.
+ * Poskytuje špecifické pravidlá pre maximálnu dĺžku výpožičky
+ * a maximálny počet výpožičiek a rezervácií na základe histórie výpožičiek
+ * a doby od registrácie.
+ */
+public class VIP extends Pouzivatel {
+
+    /**
+     * Vytvorí nového VIP používateľa.
+     *
+     * @param id unikátny identifikátor používateľa
+     * @param meno meno používateľa
+     * @param vek vek používateľa
+     */
+    public VIP(String id, String meno, int vek) {
+        super(id, meno, "vip", vek);
+    }
+
+    /**
+     * Vráti maximálnu dĺžku výpožičky v dňoch.
+     * Bonus závisí od počtu predchádzajúcich výpožičiek rozdelených do kategórií:
+     * <ul>
+     *   <li>menej ako 10 výpožičiek: +10 dní</li>
+     *   <li>10 až 30 výpožičiek: +15 dní</li>
+     *   <li>viac ako 30 výpožičiek: +20 dní</li>
+     * </ul>
+     *
+     * @return maximálna dĺžka výpožičky v dňoch
+     */
+    @Override
+    public int getMaxDlzkaVypozicky() {
+        int zakladnaDlzka = 14;
+        int pocetPredchadzajucich = getPocetPredchadzajucichVypoziciek();
+        int bonusDni = switch (pocetPredchadzajucich / 10) {
+            case 0 -> 10;            // menej ako 10 výpožičiek
+            case 1, 2 -> 15;         // 10 až 30 výpožičiek
+            default -> 20;           // viac ako 30 výpožičiek
+        };
+        return zakladnaDlzka + bonusDni;
+    }
+
+    /**
+     * Vráti maximálny počet výpožičiek a rezervácií.
+     * Bonus závisí od počtu rokov od registrácie:
+     * <ul>
+     *   <li>menej ako 1 rok: +2</li>
+     *   <li>1 až 3 roky: +3</li>
+     *   <li>viac ako 3 roky: +4</li>
+     * </ul>
+     *
+     * @return maximálny počet výpožičiek a rezervácií
+     */
+    @Override
+    public int getMaxPocetVypoziciekAReservacii() {
+        int zakladnyPocet = 4;
+        long rokyOdRegistracie = ChronoUnit.YEARS.between(getDatumRegistracie(), LocalDate.now());
+        int bonusPocet;
+        if (rokyOdRegistracie < 1) {
+            bonusPocet = 2;
+        } else if (rokyOdRegistracie <= 3) {
+            bonusPocet = 3;
+        } else {
+            bonusPocet = 4;
+        }
+        return zakladnyPocet + bonusPocet;
+    }
+}
